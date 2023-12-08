@@ -14,7 +14,7 @@ const cors = require('cors'); //recurso de origen cruzado
 
 // utilizacion de los middleware  3paso
 app.use(morgan ("dev"));
-app.use(cors ({}));
+app.use(cors ());
 app.use(express.json());
 
 //routes-importo la ruta

@@ -13,7 +13,7 @@ const getByEmailService=async(email)=>{
 
  //funcion creada para el controller getById  const response= await getById(id);
 const getByIdService=async(id)=>{
-    return User.findById(id)
+    return User.findById(id).select('-password, -_v')
 };
 // funcion creada para el controller createUser const newUser=new User(payload); y  await newUser.save()
       

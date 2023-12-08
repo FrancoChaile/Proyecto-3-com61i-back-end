@@ -1,3 +1,4 @@
+
 const { Router } = require("express");
 const {
   getAllProducts,
@@ -5,6 +6,8 @@ const {
   getProductById,
   deleteProductById,
   editProductById,
+  uploadIco,
+  uploadImage
 } = require("../controllers/products.controller");
 const { getById } = require("../controllers/users.controllers");
 const {
@@ -16,6 +19,9 @@ const {
 } = require("../controllers/products.controller");
 
 const { validateRole, validatorToken } = require("../middlewares/auth");
+
+const multer = require('multer')
+const upload = multer({dest: "uploads/"})
 
 const route = Router();
 route.get("/"
@@ -47,6 +53,10 @@ route.patch("/edit/:id"
 , validateRole
 , editProductById
 );
+
+route.post("/upload-icon", upload.single("icon"), uploadIco);
+route.post("/upload-img", upload.array("images"), uploadImage);
+
 
 // creo rutas para mi shema model
 
