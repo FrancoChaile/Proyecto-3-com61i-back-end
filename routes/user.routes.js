@@ -30,7 +30,10 @@ route.post(// validacion de email
     , createUser); //importo createUser desde controller, es mas modular
 //route.post("/create",  createUser); //importo createUser desde controller, es mas modular
 
-route.patch("/edit/:id", editUser); //importo getAllUser desde controller, es mas modular
+route.patch("/edit/:id"
+    , validatorToken
+    , validateRole
+    , editUser); //importo getAllUser desde controller, es mas modular
 
 route.get("/getById/:id"
 ,validatorToken
