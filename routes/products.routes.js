@@ -2,7 +2,7 @@
 const { Router } = require("express");
 const {
   getAllProducts,
-  createProducts,
+  createProduct,
   getProductById,
   deleteProductById,
   editProductById,
@@ -24,7 +24,7 @@ const multer = require('multer')
 const upload = multer({dest: "uploads/"})
 
 const route = Router();
-route.get("/"
+route.get("/get-products"
 , validatorToken
 , validateRole
 , getAllProducts
@@ -39,7 +39,7 @@ route.get("/getById/:id"
 route.post("/create"
 , validatorToken
 , validateRole
-, createProducts
+, createProduct
 );
 
 route.delete("/delete/:id"
