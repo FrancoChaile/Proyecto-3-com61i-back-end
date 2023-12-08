@@ -7,18 +7,26 @@ const {
   deleteProductById,
   editProductById,
   uploadIco,
-  uploadImage
+  uploadImage,
+  spotlightProduct,
+  unSpotlightProduct,
+  offerProduct,
+  unOfferProduct,
+  disableProduct,
+  ableProduct,
+  prodOfferPrice,
+  editProdPrice
 } = require("../controllers/products.controller");
 const { getById } = require("../controllers/users.controllers");
 const {
   getProductByTittle,
   getProductByPrice,
   getProductByOfferprice,
-  getProductByCategorie,
+  getProductByCategory,
   getProductBySpotlight,
 } = require("../controllers/products.controller");
 
-const { validateRole, validatorToken } = require("../middlewares/auth");
+const { validateRole, validatorToken, jwtValidatorAdmin } = require("../middlewares/auth");
 
 const multer = require('multer')
 const upload = multer({dest: "uploads/"})
@@ -26,7 +34,7 @@ const upload = multer({dest: "uploads/"})
 const route = Router();
 route.get("/get-products"
 , validatorToken
-, validateRole
+// , validateRole
 , getAllProducts
 );
 
@@ -82,7 +90,7 @@ route.get("/getofferprice/:offerprice"
 route.get("/getcategorie/:categorie"
 , validatorToken
 , validateRole
-, getProductByCategorie
+, getProductByCategory
 );
 
 route.get("/getspotlight/:spotlight"
@@ -90,5 +98,38 @@ route.get("/getspotlight/:spotlight"
 , validateRole
 , getProductBySpotlight
 );
+
+
+route.patch("/spotlight-product/:id", 
+jwtValidatorAdmin, 
+spotlightProduct);
+
+route.patch("/unspotlight-product/:id", 
+jwtValidatorAdmin, 
+unSpotlightProduct);
+
+route.patch("/offer-product/:id", 
+validateRole, 
+offerProduct);
+
+route.patch("/unoffer-product/:id", 
+validateRole, 
+unOfferProduct);
+
+route.patch("/disable-product/:id", 
+jwtValidatorAdmin,
+disableProduct);
+
+route.patch("/able-product/:id", 
+jwtValidatorAdmin,
+ableProduct);
+
+route.patch("/set-offer-price/:id", 
+validateRole, 
+prodOfferPrice);
+
+route.patch("/edit-price/:id", 
+validateRole,
+editProdPrice);
 
 module.exports = route;
