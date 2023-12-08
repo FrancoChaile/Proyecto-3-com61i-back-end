@@ -15,9 +15,9 @@ const {
 const { validatorToken, validateRole } = require("../middlewares/auth");
 const { createUserValidations, deleteUserValidation } = require("../helpers/validation");
 
-route.get("/"
-,validatorToken// rutas para hacer delete protegidas con token
-,validateRole// rutas protegidas solo para borrar como admin 
+route.get("/get-users"
+// ,validatorToken// rutas para hacer delete protegidas con token
+// ,validateRole// rutas protegidas solo para borrar como admin 
 
 ,getAllUsers); //importo getAllUser desde controller, es mas modular
 // rutas para hacer delete protegidas con token
@@ -27,17 +27,17 @@ route.post(// validacion de email
     "/create" // validacion de email
      , [createUserValidations.email]
      ,[createUserValidations.password]
-    
-   , validatorToken
-    , validateRole
     , createUser); //importo createUser desde controller, es mas modular
 //route.post("/create",  createUser); //importo createUser desde controller, es mas modular
 
-route.patch("/edit/:id", editUser); //importo getAllUser desde controller, es mas modular
+route.patch("/edit/:id"
+    , validatorToken
+    , validateRole
+    , editUser); //importo getAllUser desde controller, es mas modular
 
 route.get("/getById/:id"
 ,validatorToken
-, validateRole
+// , validateRole
 , getById); //importo getById  desde controller, es mas modular
 // rutas para hacer delete protegidas con token
 // rutas protegidas solo para borrar como admin

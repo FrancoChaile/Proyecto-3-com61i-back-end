@@ -5,7 +5,7 @@ const getAllProductsService=async()=>{
      //return Product('test')  
 };
 
-const createProductsService=async(payload)=>{
+const createProductService=async(payload)=>{
     const newProduct=new Product(payload);
     return await newProduct.save();
 
@@ -59,7 +59,7 @@ const getProductBySpotlightService= async (spotlight) => {
 
 module.exports={
     getAllProductsService,
-    createProductsService,
+    createProductService,
     getProductsByIdService,
     deleteProductsService,
     editProductService,

@@ -10,9 +10,9 @@ const { hasinPassword } = require('../helpers/passwordhasing');
 // peticion de usuario
 const getAllUsers = async(req, res) => {
     try {
-        const response=await getUsersService();//para obtener todos los usuarios
+        const response = await getUsersService();//para obtener todos los usuarios
         //res.status(200).json('test');
-        if(response.length==0) return res.status(404).json('no hay ususarios registrados');
+        // if(response.length==0) return res.status(404).json('no hay ususarios registrados');
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json(error.message);

@@ -5,41 +5,34 @@ const{ Schema, model }=require('mongoose');
 const userSchema = new Schema({
     name: {
         type: String,
-        require:[true,'el campo es requerido'],
+        require:true
 
     },
     lastname:{
         type: String,
-        require:[true,'el campo es requerido'],
+        require:true
     },
     age:{
         type: Number,
-        min:[1, ' la eda mini es 18 año'],
-        nax:[99, ' la eda max es 99 año'],
+        min:1, 
+        nax:99 
     },
     email: {
         type: String,
-        require:[true,'el campo es requerido'],
+        require:true,
         unique:true// para que el email no se repita
         
 
     },
     role: {
         type: String,
-        require:[true,'el campo es requerido'],
-        enum:['admin', 'client'],
+        require: false,
         default: 'client'
 
     },
     password: {
         type: String,
-        require:[true,'el campo es requerido'],
-    
-    
-    },
-    passwordCheck: {
-        type: String,
-        require:[true,'el campo es requerido'],
+        require:true,
     
     
     },

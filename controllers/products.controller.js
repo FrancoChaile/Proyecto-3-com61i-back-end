@@ -2,7 +2,7 @@
 
 const {
   getAllProductsService,
-  createProductsService,
+  createProductService,
   getProductsByIdService,
   deleteProductsService,
   editProductService,
@@ -13,6 +13,9 @@ const {
   getProductBySpotlightService,
 
 } = require("../services/products.service");
+const cloudinary = require("cloudinary").v2;
+
+const fs = require('fs-extra')
 
 const getAllProducts = async (req, res) => {
   try {
@@ -58,14 +61,42 @@ const deleteProductById = async (req, res) => {
   }
 };
 
-const createProducts = async (req, res) => {
+const createProduct = async (req, res) => {
   try {
     const payload = req.body;
-    const response = await createProductsService(payload);
+    const response = await createProductService(payload);
 
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json(error.message);
+  }
+};
+
+const uploadIco = async (req, res) => {
+
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "products"
+    });
+    await fs.remove(req.file.path)
+    return res.json(result)
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({error: "Error al cargar el ícono"})
+  }
+}
+
+const uploadImage = async (req, res) => {
+  try {
+    const promises = req.files.map((file) =>
+      cloudinary.uploader.upload(file.path, { folder: "products" })
+    );
+    const results = await Promise.all(promises);
+    // await fs.remove(req.files.path);
+    return res.json(results);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error al cargar imágenes" });
   }
 };
 
@@ -140,7 +171,7 @@ const getProductBySpotlight = async (req, res) => {
 
 module.exports = {
   getAllProducts,
-  createProducts,
+  createProduct,
   getProductById,
   deleteProductById,
   editProductById,
@@ -149,4 +180,6 @@ module.exports = {
   getProductByOfferprice,
   getProductByCategorie,
   getProductBySpotlight,
+  uploadIco,
+  uploadImage
 };
