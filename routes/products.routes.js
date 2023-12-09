@@ -32,10 +32,9 @@ const multer = require('multer')
 const upload = multer({dest: "uploads/"})
 
 const route = Router();
-route.get("/get-products"
-, validatorToken
-// , validateRole
-, getAllProducts
+route.get("/get-products",
+  jwtValidatorAdmin,
+  getAllProducts
 );
 
 route.get("/getById/:id"
@@ -56,9 +55,8 @@ route.delete("/delete/:id"
 , deleteProductById
 );
 
-route.patch("/edit/:id"
-, validatorToken
-, validateRole
+route.patch("/edit-product/:id"
+, jwtValidatorAdmin
 , editProductById
 );
 
@@ -109,11 +107,11 @@ jwtValidatorAdmin,
 unSpotlightProduct);
 
 route.patch("/offer-product/:id", 
-validateRole, 
+jwtValidatorAdmin,
 offerProduct);
 
 route.patch("/unoffer-product/:id", 
-validateRole, 
+jwtValidatorAdmin, 
 unOfferProduct);
 
 route.patch("/disable-product/:id", 
@@ -125,11 +123,11 @@ jwtValidatorAdmin,
 ableProduct);
 
 route.patch("/set-offer-price/:id", 
-validateRole, 
+jwtValidatorAdmin, 
 prodOfferPrice);
 
 route.patch("/edit-price/:id", 
-validateRole,
+jwtValidatorAdmin,
 editProdPrice);
 
 module.exports = route;

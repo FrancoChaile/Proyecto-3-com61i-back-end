@@ -40,6 +40,7 @@ const validateRole=(req, res, next)=>{
     const jwtValidatorAdmin = async (req, res, next) => {
         try {
           const token = req.headers['access-token'];
+          console.log('Back Token:', token);
           if (!token) return res.status(400).json("Token inexistente");
           jwt.verify(token, process.env.SECRET_KEY, (error, decodedToken) => {
             if (error) return res.status(401).json("Token invalido");
