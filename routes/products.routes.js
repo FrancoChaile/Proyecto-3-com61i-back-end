@@ -2,7 +2,7 @@
 const { Router } = require("express");
 const {
   getAllProducts,
-  createProducts,
+  createProduct,
   getProductById,
   deleteProductById,
   editProductById,
@@ -39,7 +39,7 @@ route.get("/getById/:id"
 route.post("/create"
 , validatorToken
 , validateRole
-, createProducts
+, createProduct
 );
 
 route.delete("/delete/:id"
