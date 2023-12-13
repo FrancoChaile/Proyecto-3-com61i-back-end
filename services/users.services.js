@@ -21,16 +21,29 @@ const createUserService=async(payload)=>{
     const newUser= new User(payload);
     return await newUser.save();
 };
-const editUserService= async(id, payload)=>{
+const editUserService= async(id, userData)=>{
     const options={
+        omitUndefined: true,
         new: true,
     }
-    return await User.findByIdAndUpdate(id, payload,options);
+    return await User.findByIdAndUpdate(id, userData, options).select('-password -__v');
 
 };
 const deleteUserService=async(id) =>{
     return User.findByIdAndDelete(id)
-}
+};
+
+const getBannedUsersService = async () => {
+    return await User.find({disabled: true});
+  };
+  
+const getActiveUsersService = async () => {
+    return await User.find({disabled: false});
+  };
+  
+const getAdminUsersService = async () => {
+    return await User.find({role: 'admin'});
+  };
 
 module.exports={
     getUsersService,
@@ -38,5 +51,8 @@ module.exports={
     createUserService,
     editUserService,
     deleteUserService,
-    getByEmailService
+    getByEmailService,
+    getBannedUsersService,
+    getActiveUsersService,
+    getAdminUsersService
 };

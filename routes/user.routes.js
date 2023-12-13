@@ -9,10 +9,18 @@ const {
   getById,
   deleteUser,
   checkUserEmail,
+  disableUser,
+  unbanUser,
+  adminUser,
+  clientUser,
+  uploadAvatar,
 } = require("../controllers/users.controllers");
 
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
-const { validatorToken, validateRole } = require("../middlewares/auth");
+
+const { validatorToken, validateRole, jwtValidatorAdmin, jwtValidatorOwner } = require("../middlewares/auth");
 const { createUserValidations, deleteUserValidation } = require("../helpers/validation");
 
 route.get("/get-users"
@@ -43,10 +51,20 @@ route.get("/getById/:id"
 // rutas protegidas solo para borrar como admin
 route.get("/checkUserEmail", checkUserEmail);
 
-route.delete("/delete/:id",
+route.delete("/delete-user/:id",
 [deleteUserValidation.id],
 validatorToken,// rutas para hacer delete protegidas con token
 validateRole,// rutas protegidas solo para borrar como admin
 deleteUser);
+
+route.patch('/disable-user/:id', jwtValidatorAdmin, disableUser);
+
+route.patch('/unban-user/:id', jwtValidatorAdmin, unbanUser)
+
+route.patch('/user-admin/:id', jwtValidatorAdmin, adminUser);
+
+route.patch("/user-client/:id", jwtValidatorAdmin, clientUser);
+
+route.post("/upload-avatar/:id", upload.single("avatar"), validatorToken, uploadAvatar);
 
 module.exports = route; // exportar
