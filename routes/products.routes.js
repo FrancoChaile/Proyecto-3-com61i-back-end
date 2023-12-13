@@ -2,32 +2,39 @@
 const { Router } = require("express");
 const {
   getAllProducts,
-  createProducts,
+  createProduct,
   getProductById,
   deleteProductById,
   editProductById,
   uploadIco,
-  uploadImage
+  uploadImage,
+  spotlightProduct,
+  unSpotlightProduct,
+  offerProduct,
+  unOfferProduct,
+  disableProduct,
+  ableProduct,
+  prodOfferPrice,
+  editProdPrice
 } = require("../controllers/products.controller");
 const { getById } = require("../controllers/users.controllers");
 const {
   getProductByTittle,
   getProductByPrice,
   getProductByOfferprice,
-  getProductByCategorie,
+  getProductByCategory,
   getProductBySpotlight,
 } = require("../controllers/products.controller");
 
-const { validateRole, validatorToken } = require("../middlewares/auth");
+const { validateRole, validatorToken, jwtValidatorAdmin } = require("../middlewares/auth");
 
 const multer = require('multer')
 const upload = multer({dest: "uploads/"})
 
 const route = Router();
-route.get("/"
-, validatorToken
-, validateRole
-, getAllProducts
+route.get("/get-products",
+  jwtValidatorAdmin,
+  getAllProducts
 );
 
 route.get("/getById/:id"
@@ -39,7 +46,7 @@ route.get("/getById/:id"
 route.post("/create"
 , validatorToken
 , validateRole
-, createProducts
+, createProduct
 );
 
 route.delete("/delete/:id"
@@ -48,9 +55,8 @@ route.delete("/delete/:id"
 , deleteProductById
 );
 
-route.patch("/edit/:id"
-, validatorToken
-, validateRole
+route.patch("/edit-product/:id"
+, jwtValidatorAdmin
 , editProductById
 );
 
@@ -82,7 +88,7 @@ route.get("/getofferprice/:offerprice"
 route.get("/getcategorie/:categorie"
 , validatorToken
 , validateRole
-, getProductByCategorie
+, getProductByCategory
 );
 
 route.get("/getspotlight/:spotlight"
@@ -90,5 +96,38 @@ route.get("/getspotlight/:spotlight"
 , validateRole
 , getProductBySpotlight
 );
+
+
+route.patch("/spotlight-product/:id", 
+jwtValidatorAdmin, 
+spotlightProduct);
+
+route.patch("/unspotlight-product/:id", 
+jwtValidatorAdmin, 
+unSpotlightProduct);
+
+route.patch("/offer-product/:id", 
+jwtValidatorAdmin,
+offerProduct);
+
+route.patch("/unoffer-product/:id", 
+jwtValidatorAdmin, 
+unOfferProduct);
+
+route.patch("/disable-product/:id", 
+jwtValidatorAdmin,
+disableProduct);
+
+route.patch("/able-product/:id", 
+jwtValidatorAdmin,
+ableProduct);
+
+route.patch("/set-offer-price/:id", 
+jwtValidatorAdmin, 
+prodOfferPrice);
+
+route.patch("/edit-price/:id", 
+jwtValidatorAdmin,
+editProdPrice);
 
 module.exports = route;
