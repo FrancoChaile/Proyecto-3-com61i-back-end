@@ -13,7 +13,7 @@ const login= async(req, res)=>{
 
         const passMatch= await passwordMatch(password, userExist.password)//recibe pass del front y el pass que esta en el user exis
 
-        if(!passMatch) return res.status(404).json('El Email o Contraseña son erróneos');
+        if(!passMatch) return res.status(404).json(' el email o pass son erroneas');
 
         const payload={                    // creo un objeto de los datos que me trae cuando ingreso
             name: userExist.name,
@@ -23,12 +23,12 @@ const login= async(req, res)=>{
              role:userExist.role
 
         };
-        const token=jwt.sign(payload, process.env.SECRET_KEY, {
+        const token=jwt.sign(payload,process.env.SECRET_KEY, {// creo el token para mi seguridad
             expiresIn:process.env.TOKEN_EXPIRIS_IN  || 120,
         });
 
 
-        
+        //res.json('ok');// ara hacer prueba
         res.status(200).json({ msg: `Bienvenido@, ${userExist.name}!`, token, payload: JSON.stringify(payload) });   
         
     } catch (error) {

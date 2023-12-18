@@ -12,10 +12,6 @@ const userSchema = new Schema({
         type: String,
         require:true
     },
-    avatar: {
-        type: String,
-        required: false
-    },
     age:{
         type: Number,
         min:1, 

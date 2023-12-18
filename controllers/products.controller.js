@@ -9,10 +9,8 @@ const {
   getProductByTittleService,
   getProductByPriceService,
   getProductByOfferpriceService,
-  getProductByCategoryService,
+  getProductByCategorieService,
   getProductBySpotlightService,
-  getActiveProductsService,
-  getDisabledProductsService,
 
 } = require("../services/products.service");
 const cloudinary = require("cloudinary").v2;
@@ -145,10 +143,10 @@ const getProductByOfferprice = async (req, res) => {
   };
 
   // seccion para instancias los model shema de los productos-categorie
-const getProductByCategory = async (req, res) => {
+const getProductByCategorie = async (req, res) => {
     try {
       const { categorie } = req.params;
-      const response = await getProductByCategoryService(categorie); //para obtener todos los productos x categorie
+      const response = await getProductByCategorieService(categorie); //para obtener todos los productos x categorie
       if (response.length==0) return res.status(404).json("categoria inexistente");
   
       res.status(200).json(response);
@@ -170,146 +168,6 @@ const getProductBySpotlight = async (req, res) => {
     }
   };
 
-  const getActiveProducts = async (req, res) => {
-    try {
-      const resp = await getActiveProductsService();
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
-  
-  const getDisabledProducts = async (req, res) => {
-    try {
-      const resp = await getDisabledProductsService();
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
-
-  const prodOfferPrice = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { offerPrice } = req.body;
-      const newOfferPrice = offerPrice
-      const resp = await editProductService(id, newOfferPrice);
-      if (!resp) {
-        res.status(404).json('ID de producto inexistente');
-        return
-      }
-      res.status(200).json(resp);
-      console.log(newOfferPrice);
-    } catch (error) {
-      res.status(500).json(error.message)
-    }
-  };
-  
-  const editProdPrice = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { price } = req.body;
-      const resp = await editProductService(id, { price });
-      if (!resp) {
-        res.status(404).json("ID de producto inexistente");
-        return;
-      }
-      res.status(200).json(resp);
-      console.log(price);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
-
-  const disableProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const disabledTrue = { disabled: true };
-      const resp = await editProductService(id, disabledTrue);
-      if (!resp) {
-        res.status(404).json("ID de producto inexistente");
-        return;
-      }
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
-  
-  const ableProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const disabledFalse = { disabled: false };
-      const resp = await editProductService(id, disabledFalse);
-      if (!resp) {
-        res.status(404).json("ID de producto inexistente");
-        return;
-      }
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
-  
-  const offerProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const offerTrue = { offer: true };
-      const resp = await editProductService(id, offerTrue);
-      if (!resp) {
-        res.status(404).json("ID de producto inexistente");
-        return;
-      }
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
-  
-  const spotlightProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const spotlightTrue = { spotlight: true };
-      const resp = await editProductService(id, spotlightTrue);
-      if (!resp) {
-        res.status(404).json("ID de producto inexistente");
-        return;
-      }
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
-  
-  const unSpotlightProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const spotlightFalse = { spotlight: false };
-      const resp = await editProductService(id, spotlightFalse);
-      if (!resp) {
-        res.status(404).json("ID de producto inexistente");
-        return;
-      }
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
-  
-  const unOfferProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const unOffer = { offer: false };
-      const resp = await editProductService(id, unOffer);
-      if (!resp) {
-        res.status(404).json("ID de producto inexistente");
-        return;
-      }
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
-  };
 
 module.exports = {
   getAllProducts,
@@ -320,18 +178,8 @@ module.exports = {
   getProductByTittle,
   getProductByPrice,
   getProductByOfferprice,
-  getProductByCategory,
+  getProductByCategorie,
   getProductBySpotlight,
   uploadIco,
-  uploadImage,
-  getActiveProducts,
-  getDisabledProducts,
-  editProdPrice,
-  prodOfferPrice,
-  ableProduct,
-  unOfferProduct,
-  spotlightProduct,
-  unSpotlightProduct,
-  offerProduct,
-  disableProduct
+  uploadImage
 };

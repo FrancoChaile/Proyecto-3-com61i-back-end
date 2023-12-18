@@ -21,9 +21,13 @@ const deleteProductsService=async (id)=>{
 };
 
 
-const editProductService = async (id, payload) => {
-    return await Product.findByIdAndUpdate(id, payload);
-  };
+const editProductService= async(id, payload)=>{
+    const options={
+        new: true,
+    }
+    return await Product.findByIdAndUpdate(id, payload,options);
+
+};
 
 const getProductByTittleService = async (tittle) => {
     return await Product.find({ tittle: tittle });
@@ -38,7 +42,7 @@ const getProductByOfferpriceService = async (offerprice) => {
     return await Product.find({ offerprice: offerprice });
 
 };
-const getProductByCategoryService = async (categorie) => {
+const getProductByCategorieService = async (categorie) => {
     return await Product.find({ categorie: categorie });
 
 };
@@ -53,14 +57,6 @@ const getProductBySpotlightService= async (spotlight) => {
 
 };
 
-const getActiveProductsService = async () => {
-    return await Product.find({ disabled: false });
-  };
-
-const getDisabledProductsService = async () => {
-    return await Product.find({ disabled: true });
-  };
-
 module.exports={
     getAllProductsService,
     createProductService,
@@ -70,9 +66,7 @@ module.exports={
     getProductByTittleService,
     getProductByPriceService,
     getProductByOfferpriceService,
-    getProductByCategoryService,
+    getProductByCategorieService,
     getProductBySpotlightService,
-    getActiveProductsService,
-    getDisabledProductsService
 
 };
