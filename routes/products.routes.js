@@ -33,7 +33,6 @@ const upload = multer({dest: "uploads/"})
 
 const route = Router();
 route.get("/get-products",
-  jwtValidatorAdmin,
   getAllProducts
 );
 
